@@ -25,14 +25,7 @@ def get_new_boards(board):
     return [nb1, nb2]
 
 
-assert get_new_boards(board=[[None, None], [None, None]]) == [
-    [[True, None], [None, None]],
-    [[False, None], [None, None]],
-]
-assert get_new_boards([[True, None], [None, None]]) == [
-    [[True, True], [None, None]],
-    [[True, False], [None, None]],
-]
+
 
 
 def get_row_groups(row):
@@ -56,9 +49,7 @@ def get_row_groups(row):
     return row_groups
 
 
-x = get_row_groups([True, True, None, True, None])
-assert x == [2, 1]
-assert get_row_groups([True, True, True, True, False]) == [4]
+
 
 
 def row_groups_can_fit_in_nums(row_groups, nums):
@@ -91,13 +82,6 @@ def row_groups_can_fit_in_nums(row_groups, nums):
     return False
 
 
-assert row_groups_can_fit_in_nums([1, 1], [2, 1]) is True
-assert row_groups_can_fit_in_nums([3], [2, 1]) is False
-assert row_groups_can_fit_in_nums([1, 1, 1], [2, 4]) is False  # first cond.
-assert row_groups_can_fit_in_nums([3, 2], [1, 2, 3, 2, 1]) is True
-assert row_groups_can_fit_in_nums([], [2, 1]) is True
-
-
 def row_is_complete(row):
     no_nones = all(cell is not None for cell in row)
     return no_nones
@@ -119,12 +103,6 @@ def row_is_valid(row, nums):
     return row_groups_can_fit_in_nums(row_groups, nums)
 
 
-assert row_is_valid(row=[True, None, False, True, None], nums=[2, 1]) is True
-assert row_is_valid(row=[True, True, False, True, None], nums=[1, 1]) is False
-
-assert row_is_valid([False, False, False, True, False], nums=[1, 1]) is False
-assert row_is_valid([True, False, True, False, False], nums=[1, 1]) is True
-
 
 def is_valid(board, top_nums, side_nums):
     rows = board
@@ -144,49 +122,27 @@ def is_valid(board, top_nums, side_nums):
     return True
 
 
-assert (
-    is_valid(
-        board=[[True, False], [None, True]], top_nums=[[1], [1]], side_nums=[[1], [1]]
-    )
-    is True
-)
-assert (
-    is_valid(
-        board=[[True, False], [None, True]], top_nums=[[1], []], side_nums=[[1], [1]]
-    )
-    is False
-)
 
-b = [
-    [True, False, True, False, False],
-    [False, False, True, True, True],
-    [False, False, False, True, True],
-    [False, False, True, True, True],
-    [True, True, True, False, False],
-]
-
-assert (
-    is_valid(
-        b,
-        top_nums=[[1, 1], [1], [2, 2], [3], [3]],
-        side_nums=[[1, 1], [3], [2], [3], [3]],
-    )
-    is True
-)
 
 
 def solve(top_nums, side_nums, board_size=5):
+    """Return a list of lists representing the solution to the puzzle.
 
-    # puzzles are board_sizexboard_size
-    # each board element will be either:
-    # - None (we don't know yet)
-    # - True (click it)
-    # - False (don't click it)
+    puzzles are board_size x board_size
+    each board element will be either:
+    - None (we don't know yet)
+    - True (click it)
+    - False (don't click it)
+    """
+
 
     empty_board = [[None for _ in range(board_size)] for _ in range(board_size)]
     queue = [empty_board]
 
     while True:
+        if not queue:
+            raise ValueError(f"Unable to find a solution.")
+
         board = queue.pop(0)
 
         # check if we have a solution:
@@ -195,21 +151,3 @@ def solve(top_nums, side_nums, board_size=5):
         new_boards = get_new_boards(board)
         new_valid_boards = [b for b in new_boards if is_valid(b, top_nums, side_nums)]
         queue.extend(new_valid_boards)
-
-
-x = solve(top_nums=[[1], [1]], side_nums=[[1], [1]], board_size=2)
-assert x == [[True, False], [False, True]]
-
-x = solve(
-    top_nums=[[1, 1], [1], [2, 2], [3], [3]],
-    side_nums=[[1, 1], [3], [2], [3], [3]],
-    board_size=5,
-)
-b = [
-    [True, False, True, False, False],
-    [False, False, True, True, True],
-    [False, False, False, True, True],
-    [False, False, True, True, True],
-    [True, True, True, False, False],
-]
-assert x == b
