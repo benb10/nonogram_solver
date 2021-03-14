@@ -1,5 +1,6 @@
 from copy import deepcopy
 from itertools import chain
+from time import time
 
 
 def get_new_boards(board):
@@ -124,6 +125,8 @@ def solve(top_nums, side_nums, board_size=5):
     - True (click it)
     - False (don't click it)
     """
+    start_time = time()
+    print(f"Starting solve.")
 
     empty_board = [[None for _ in range(board_size)] for _ in range(board_size)]
     queue = [empty_board]
@@ -136,6 +139,8 @@ def solve(top_nums, side_nums, board_size=5):
 
         # check if we have a solution:
         if board_is_complete(board):
+            run_time = round(time() - start_time, 3)
+            print(f"Finsihed solve in {run_time} seconds.")
             return board
         new_boards = get_new_boards(board)
         new_valid_boards = [b for b in new_boards if is_valid(b, top_nums, side_nums)]
