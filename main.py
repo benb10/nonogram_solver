@@ -3,7 +3,6 @@ from selenium.webdriver import Chrome
 from web_page_interaction import solve_on_screen
 
 
-
 def main():
     # TODO handle this better.  chrome driver auto installer?
     cd_path = "C:/Users/BenB/Documents/BenB/chromedriver_win32/chromedriver.exe"

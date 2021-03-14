@@ -25,8 +25,14 @@ def get_new_boards(board):
     return [nb1, nb2]
 
 
-assert get_new_boards(board=[[None, None], [None, None]]) == [[[True, None], [None, None]], [[False, None], [None, None]]]
-assert get_new_boards([[True, None], [None, None]]) == [[[True, True], [None, None]], [[True, False], [None, None]]]
+assert get_new_boards(board=[[None, None], [None, None]]) == [
+    [[True, None], [None, None]],
+    [[False, None], [None, None]],
+]
+assert get_new_boards([[True, None], [None, None]]) == [
+    [[True, True], [None, None]],
+    [[True, False], [None, None]],
+]
 
 
 def get_row_groups(row):
@@ -48,6 +54,7 @@ def get_row_groups(row):
             row_groups.append(1)
 
     return row_groups
+
 
 x = get_row_groups([True, True, None, True, None])
 assert x == [2, 1]
@@ -71,7 +78,7 @@ def row_groups_can_fit_in_nums(row_groups, nums):
     start_positions_to_try = range(len(nums) - len(row_groups) + 1)
 
     for start_pos in start_positions_to_try:
-        pairs_to_compare = list(zip(row_groups, nums[start_pos :]))
+        pairs_to_compare = list(zip(row_groups, nums[start_pos:]))
         # print(pairs_to_compare)
 
         can_fit = all(
@@ -82,6 +89,7 @@ def row_groups_can_fit_in_nums(row_groups, nums):
             return True
     # we haven't been able to fit it anywhere
     return False
+
 
 assert row_groups_can_fit_in_nums([1, 1], [2, 1]) is True
 assert row_groups_can_fit_in_nums([3], [2, 1]) is False
@@ -125,20 +133,29 @@ def is_valid(board, top_nums, side_nums):
 
     for row, nums in zip(rows, side_nums):
         if not row_is_valid(row, nums):
-            #print(f"bad row! {row}")
+            # print(f"bad row! {row}")
             return False
-
 
     for col, nums in zip(cols, top_nums):
         if not row_is_valid(col, nums):
-            #print(f"bad col! {col}, {nums}")
+            # print(f"bad col! {col}, {nums}")
             return False
 
     return True
 
 
-assert is_valid(board=[[True, False], [None, True]], top_nums=[[1], [1]], side_nums=[[1], [1]]) is True
-assert is_valid(board=[[True, False], [None, True]], top_nums=[[1], []], side_nums=[[1], [1]]) is False
+assert (
+    is_valid(
+        board=[[True, False], [None, True]], top_nums=[[1], [1]], side_nums=[[1], [1]]
+    )
+    is True
+)
+assert (
+    is_valid(
+        board=[[True, False], [None, True]], top_nums=[[1], []], side_nums=[[1], [1]]
+    )
+    is False
+)
 
 b = [
     [True, False, True, False, False],
@@ -148,8 +165,14 @@ b = [
     [True, True, True, False, False],
 ]
 
-assert is_valid(b, top_nums=[[1,1], [1], [2, 2], [3], [3]], side_nums=[[1,1], [3], [2], [3], [3]]) is True
-
+assert (
+    is_valid(
+        b,
+        top_nums=[[1, 1], [1], [2, 2], [3], [3]],
+        side_nums=[[1, 1], [3], [2], [3], [3]],
+    )
+    is True
+)
 
 
 def solve(top_nums, side_nums, board_size=5):
@@ -170,18 +193,18 @@ def solve(top_nums, side_nums, board_size=5):
         if board_is_complete(board):
             return board
         new_boards = get_new_boards(board)
-        new_valid_boards = [
-            b
-            for b in new_boards
-            if is_valid(b, top_nums, side_nums)
-        ]
+        new_valid_boards = [b for b in new_boards if is_valid(b, top_nums, side_nums)]
         queue.extend(new_valid_boards)
 
 
 x = solve(top_nums=[[1], [1]], side_nums=[[1], [1]], board_size=2)
 assert x == [[True, False], [False, True]]
 
-x = solve(top_nums=[[1,1], [1], [2, 2], [3], [3]], side_nums=[[1,1], [3], [2], [3], [3]], board_size=5)
+x = solve(
+    top_nums=[[1, 1], [1], [2, 2], [3], [3]],
+    side_nums=[[1, 1], [3], [2], [3], [3]],
+    board_size=5,
+)
 b = [
     [True, False, True, False, False],
     [False, False, True, True, True],

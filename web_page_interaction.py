@@ -18,16 +18,10 @@ def get_nums_list(task_elem):
     return nums
 
 
-
-
-
 def get_rows(board_elem):
     rows = board_elem.find_elements_by_class_name("row")
 
-    rows_list = [
-        row.find_elements_by_class_name("cell")
-        for row in rows
-    ]
+    rows_list = [row.find_elements_by_class_name("cell") for row in rows]
 
     return rows_list
 
