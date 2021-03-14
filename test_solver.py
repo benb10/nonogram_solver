@@ -1,5 +1,11 @@
-from solver import get_new_boards, get_row_groups, row_groups_can_fit_in_nums, row_is_valid, is_valid, solve
-
+from solver import (
+    get_new_boards,
+    get_row_groups,
+    row_groups_can_fit_in_nums,
+    row_is_valid,
+    is_valid,
+    solve,
+)
 
 
 def test_get_new_boards():
@@ -36,13 +42,17 @@ def test_row_is_valid():
 def test_is_valid():
     assert (
         is_valid(
-            board=[[True, False], [None, True]], top_nums=[[1], [1]], side_nums=[[1], [1]]
+            board=[[True, False], [None, True]],
+            top_nums=[[1], [1]],
+            side_nums=[[1], [1]],
         )
         is True
     )
     assert (
         is_valid(
-            board=[[True, False], [None, True]], top_nums=[[1], []], side_nums=[[1], [1]]
+            board=[[True, False], [None, True]],
+            top_nums=[[1], []],
+            side_nums=[[1], [1]],
         )
         is False
     )

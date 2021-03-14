@@ -25,9 +25,6 @@ def get_new_boards(board):
     return [nb1, nb2]
 
 
-
-
-
 def get_row_groups(row):
     """
     input: [True, True, None, True, None]
@@ -47,9 +44,6 @@ def get_row_groups(row):
             row_groups.append(1)
 
     return row_groups
-
-
-
 
 
 def row_groups_can_fit_in_nums(row_groups, nums):
@@ -103,7 +97,6 @@ def row_is_valid(row, nums):
     return row_groups_can_fit_in_nums(row_groups, nums)
 
 
-
 def is_valid(board, top_nums, side_nums):
     rows = board
     cols = list(list(x) for x in zip(*board))
@@ -122,9 +115,6 @@ def is_valid(board, top_nums, side_nums):
     return True
 
 
-
-
-
 def solve(top_nums, side_nums, board_size=5):
     """Return a list of lists representing the solution to the puzzle.
 
@@ -134,7 +124,6 @@ def solve(top_nums, side_nums, board_size=5):
     - True (click it)
     - False (don't click it)
     """
-
 
     empty_board = [[None for _ in range(board_size)] for _ in range(board_size)]
     queue = [empty_board]
